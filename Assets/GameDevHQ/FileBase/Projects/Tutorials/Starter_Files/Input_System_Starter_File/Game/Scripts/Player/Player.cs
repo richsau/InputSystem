@@ -50,16 +50,29 @@ namespace Game.Scripts.Player
 
         private void Update()
         {
-            if (_canMove == true)
-                CalcutateMovement();
+            // old input system
+            //if (_canMove == true)
+            //    CalcutateMovement();
 
         }
 
-        private void CalcutateMovement()
+        public void Move(Vector2 movement)
+        {
+            if (_canMove == true)
+            {
+                CalcutateMovement(movement);
+            }
+        }
+
+        private void CalcutateMovement(Vector2 movement)
         {
             _playerGrounded = _controller.isGrounded;
-            float h = Input.GetAxisRaw("Horizontal");
-            float v = Input.GetAxisRaw("Vertical");
+            // old input system
+            //float h = Input.GetAxisRaw("Horizontal");
+            //float v = Input.GetAxisRaw("Vertical");
+
+            float h = movement.x;
+            float v = movement.y;
 
             transform.Rotate(transform.up, h);
 
