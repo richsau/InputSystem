@@ -14149,7 +14149,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 1.02e-43, y: 1e-45, z: 3.398e-42, w: 0}
+  m_BoundingSphereOverride: {x: 1.02e-43, y: 6e-45, z: 1.6142e-41, w: -5.072556e+29}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -19099,6 +19099,50 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 82e4525c3cbeb4088985a1906ff7ea25, type: 3}
+--- !u!1 &948802466
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 948802467}
+  - component: {fileID: 948802468}
+  m_Layer: 0
+  m_Name: DroneInput
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &948802467
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 948802466}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1073608669}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &948802468
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 948802466}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6e829d49bfafd74dacbb1b601879529, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &951804489 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: 09876c682adfe40a2a06a900121b4e55,
@@ -19688,7 +19732,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 972744894}
-  m_LocalRotation: {x: 0.22150688, y: 0.046705786, z: -0.010622019, w: 0.9739818}
+  m_LocalRotation: {x: 0.22150688, y: 0.04670643, z: -0.010622166, w: 0.97398174}
   m_LocalPosition: {x: -0.48177326, y: 4.5286655, z: -4.833789}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -21736,6 +21780,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 173680096}
+  - {fileID: 948802467}
   m_Father: {fileID: 260636076}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
@@ -21756,6 +21801,7 @@ MonoBehaviour:
   _propAnim: {fileID: 181193216}
   _droneCam: {fileID: 106664337}
   _interactableZone: {fileID: 1810029383}
+  _input: {fileID: 948802468}
 --- !u!65 &1073608671
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -38640,7 +38686,7 @@ MonoBehaviour:
   _displayMessage: Fly Drone
   _zoneItems: []
   _inventoryIcon: {fileID: 0}
-  _zoneKeyInput: 101
+  _zoneKeyInput: 32
   _keyState: 0
   _marker: {fileID: 1041737524}
 --- !u!1001 &1810757429
