@@ -2,6 +2,7 @@ using Game.Scripts.Player;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.UI;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -24,5 +25,11 @@ public class PlayerManager : MonoBehaviour
     {
         _input = new GameInput();
         _input.Player.Enable();
+        
+    }
+
+    private void OnDisable()
+    {
+        _input.Player.Disable();
     }
 }

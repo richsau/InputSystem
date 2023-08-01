@@ -48,14 +48,6 @@ namespace Game.Scripts.Player
                 Debug.Log("Failed to connect the Animator");
         }
 
-        private void Update()
-        {
-            // old input system
-            //if (_canMove == true)
-            //    CalcutateMovement();
-
-        }
-
         public void Move(Vector2 movement)
         {
             if (_canMove == true)
@@ -67,9 +59,6 @@ namespace Game.Scripts.Player
         private void CalcutateMovement(Vector2 movement)
         {
             _playerGrounded = _controller.isGrounded;
-            // old input system
-            //float h = Input.GetAxisRaw("Horizontal");
-            //float v = Input.GetAxisRaw("Vertical");
 
             float h = movement.x;
             float v = movement.y;
@@ -141,7 +130,6 @@ namespace Game.Scripts.Player
             Drone.OnEnterFlightMode -= ReleasePlayerControl;
             Drone.onExitFlightmode -= ReturnPlayerControl;
         }
-
     }
 }
 

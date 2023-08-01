@@ -9281,7 +9281,7 @@ MonoBehaviour:
   _zoneItems:
   - {fileID: 758722189}
   _inventoryIcon: {fileID: 21300000, guid: 8e46bcb2f14d4d144b9e4a395b47efa2, type: 3}
-  _zoneKeyInput: 101
+  _zoneKeyInput: 32
   _keyState: 0
   _marker: {fileID: 605505802}
 --- !u!4 &482471386 stripped
@@ -14149,7 +14149,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 1.02e-43, y: 1e-45, z: 1.7131e-41, w: 2.3800173e+20}
+  m_BoundingSphereOverride: {x: 1.02e-43, y: 1e-45, z: 3.398e-42, w: 0}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -19688,7 +19688,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 972744894}
-  m_LocalRotation: {x: 0.22150685, y: 0.04670723, z: -0.010622348, w: 0.9739817}
+  m_LocalRotation: {x: 0.22150688, y: 0.046705786, z: -0.010622019, w: 0.9739818}
   m_LocalPosition: {x: -0.48177326, y: 4.5286655, z: -4.833789}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -26849,7 +26849,7 @@ MonoBehaviour:
   - {fileID: 474256985}
   - {fileID: 908574055}
   _inventoryIcon: {fileID: 21300000, guid: 81dff3a1ca824714aae965897edd2351, type: 3}
-  _zoneKeyInput: 101
+  _zoneKeyInput: 32
   _keyState: 0
   _marker: {fileID: 1583429342}
 --- !u!1001 &1178759240
@@ -42684,7 +42684,7 @@ MonoBehaviour:
   _displayMessage: Hack Cameras
   _zoneItems: []
   _inventoryIcon: {fileID: 0}
-  _zoneKeyInput: 101
+  _zoneKeyInput: 32
   _keyState: 1
   _marker: {fileID: 55150249}
 --- !u!4 &2030128479 stripped

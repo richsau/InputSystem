@@ -23,18 +23,35 @@ namespace Game.Scripts.LiveObjects
         public static event Action onHackComplete;
         public static event Action onHackEnded;
 
+
+        private bool _interacted = false;
+        private bool _exited = false;
+
         private void OnEnable()
         {
             InteractableZone.onHoldStarted += InteractableZone_onHoldStarted;
             InteractableZone.onHoldEnded += InteractableZone_onHoldEnded;
+            InteractableZone.onInteract += InteractableZone_onInteract;
+            InteractableZone.onExit += InteractableZone_onExit;
+        }
+
+        private void InteractableZone_onExit(int obj)
+        {
+            _exited = true;
+        }
+
+        private void InteractableZone_onInteract(int obj)
+        {
+            _interacted = true;
         }
 
         private void Update()
         {
             if (_hacked == true)
             {
-                if (Input.GetKeyDown(KeyCode.E))
+                if (_interacted)
                 {
+                    _interacted = false;
                     var previous = _activeCamera;
                     _activeCamera++;
 
@@ -47,8 +64,9 @@ namespace Game.Scripts.LiveObjects
                     _cameras[previous].Priority = 9;
                 }
 
-                if (Input.GetKeyDown(KeyCode.Escape))
+                if (_exited)
                 {
+                    _exited = false;
                     _hacked = false;
                     onHackEnded?.Invoke();
                     ResetCameras();
@@ -112,8 +130,9 @@ namespace Game.Scripts.LiveObjects
         {
             InteractableZone.onHoldStarted -= InteractableZone_onHoldStarted;
             InteractableZone.onHoldEnded -= InteractableZone_onHoldEnded;
+            InteractableZone.onInteract -= InteractableZone_onInteract;
+            InteractableZone.onExit -= InteractableZone_onExit;
         }
     }
-
 }
 

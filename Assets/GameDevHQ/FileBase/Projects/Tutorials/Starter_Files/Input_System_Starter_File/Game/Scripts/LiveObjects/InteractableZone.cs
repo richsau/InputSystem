@@ -44,7 +44,10 @@ namespace Game.Scripts.LiveObjects
         private KeyState _keyState;
         [SerializeField]
         private GameObject _marker;
+        private GameInput _input;
 
+        private bool _interactivePressed = false;
+        private bool _interactiveReleased = false;
         private bool _inHoldState = false;
 
         private static int _currentZoneID = 0;
@@ -65,11 +68,44 @@ namespace Game.Scripts.LiveObjects
         public static event Action<InteractableZone> onZoneInteractionComplete;
         public static event Action<int> onHoldStarted;
         public static event Action<int> onHoldEnded;
+        public static event Action<int> onInteract;
+        public static event Action<int> onExit;
 
         private void OnEnable()
         {
             InteractableZone.onZoneInteractionComplete += SetMarker;
+        }
 
+        private void Start()
+        {
+            InitInput();
+        }
+
+        private void InitInput()
+        {
+            _input = new GameInput();
+            _input.InteractiveZone.Enable();
+            _input.InteractiveZone.Interact.started += Interact_started;
+            _input.InteractiveZone.Interact.canceled += Interact_canceled;
+            _input.InteractiveZone.Exit.performed += Exit_performed;
+        }
+
+        private void Interact_started(UnityEngine.InputSystem.InputAction.CallbackContext context)
+        {
+            _interactivePressed = true;
+            _interactiveReleased = false;
+            onInteract?.Invoke(_zoneID);
+        }
+
+        private void Interact_canceled(UnityEngine.InputSystem.InputAction.CallbackContext context)
+        {
+            _interactiveReleased = true;
+            _interactivePressed = false;
+        }
+
+        private void Exit_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+        {
+            onExit?.Invoke(_zoneID);
         }
 
         private void OnTriggerEnter(Collider other)
@@ -108,9 +144,10 @@ namespace Game.Scripts.LiveObjects
 
                     case ZoneType.HoldAction:
                         _inZone = true;
+                        _interactiveReleased = false;
                         if (_displayMessage != null)
                         {
-                            string message = $"Press the {_zoneKeyInput.ToString()} key to {_displayMessage}.";
+                            string message = $"Hold the {_zoneKeyInput.ToString()} key to {_displayMessage}.";
                             UIManager.Instance.DisplayInteractableZoneMessage(true, message);
                         }
                         else
@@ -124,8 +161,7 @@ namespace Game.Scripts.LiveObjects
         {
             if (_inZone == true)
             {
-
-                if (Input.GetKeyDown(_zoneKeyInput) && _keyState != KeyState.PressHold)
+                if (_interactivePressed && _keyState != KeyState.PressHold)
                 {
                     //press
                     switch (_zoneType)
@@ -149,12 +185,10 @@ namespace Game.Scripts.LiveObjects
                             break;
                     }
                 }
-                else if (Input.GetKey(_zoneKeyInput) && _keyState == KeyState.PressHold && _inHoldState == false)
+                else if (_interactivePressed && _keyState == KeyState.PressHold && _inHoldState == false)
                 {
                     _inHoldState = true;
-
-                   
-
+ 
                     switch (_zoneType)
                     {                      
                         case ZoneType.HoldAction:
@@ -163,13 +197,11 @@ namespace Game.Scripts.LiveObjects
                     }
                 }
 
-                if (Input.GetKeyUp(_zoneKeyInput) && _keyState == KeyState.PressHold)
+                if (_interactiveReleased && _keyState == KeyState.PressHold)
                 {
                     _inHoldState = false;
                     onHoldEnded?.Invoke(_zoneID);
                 }
-
-               
             }
         }
        
@@ -252,9 +284,10 @@ namespace Game.Scripts.LiveObjects
         private void OnDisable()
         {
             InteractableZone.onZoneInteractionComplete -= SetMarker;
-        }       
-        
+            _input.InteractiveZone.Disable();
+            _input.InteractiveZone.Interact.started -= Interact_started;
+            _input.InteractiveZone.Interact.canceled -= Interact_canceled;
+            _input.InteractiveZone.Exit.performed -= Exit_performed;
+        }
     }
 }
-
-

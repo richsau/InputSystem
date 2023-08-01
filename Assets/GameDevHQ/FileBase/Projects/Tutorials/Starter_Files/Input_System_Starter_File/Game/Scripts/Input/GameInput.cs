@@ -94,6 +94,54 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 }
             ]
+        },
+        {
+            ""name"": ""InteractiveZone"",
+            ""id"": ""285bdd28-b16c-42b6-870f-7611a93bb674"",
+            ""actions"": [
+                {
+                    ""name"": ""Interact"",
+                    ""type"": ""Button"",
+                    ""id"": ""0efdf3be-c8a7-4adc-b85c-7f2ce4442fa4"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Exit"",
+                    ""type"": ""Button"",
+                    ""id"": ""dfb2d5bf-ebb3-4ade-a6cd-111f83ab266f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""7e66263c-1408-44d6-b3f9-5d89fe1e4464"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9ff80ec6-67cb-4cc2-9154-4b19fc181cb8"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Exit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -101,6 +149,10 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Movement = m_Player.FindAction("Movement", throwIfNotFound: true);
+        // InteractiveZone
+        m_InteractiveZone = asset.FindActionMap("InteractiveZone", throwIfNotFound: true);
+        m_InteractiveZone_Interact = m_InteractiveZone.FindAction("Interact", throwIfNotFound: true);
+        m_InteractiveZone_Exit = m_InteractiveZone.FindAction("Exit", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -204,8 +256,67 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         }
     }
     public PlayerActions @Player => new PlayerActions(this);
+
+    // InteractiveZone
+    private readonly InputActionMap m_InteractiveZone;
+    private List<IInteractiveZoneActions> m_InteractiveZoneActionsCallbackInterfaces = new List<IInteractiveZoneActions>();
+    private readonly InputAction m_InteractiveZone_Interact;
+    private readonly InputAction m_InteractiveZone_Exit;
+    public struct InteractiveZoneActions
+    {
+        private @GameInput m_Wrapper;
+        public InteractiveZoneActions(@GameInput wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Interact => m_Wrapper.m_InteractiveZone_Interact;
+        public InputAction @Exit => m_Wrapper.m_InteractiveZone_Exit;
+        public InputActionMap Get() { return m_Wrapper.m_InteractiveZone; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(InteractiveZoneActions set) { return set.Get(); }
+        public void AddCallbacks(IInteractiveZoneActions instance)
+        {
+            if (instance == null || m_Wrapper.m_InteractiveZoneActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_InteractiveZoneActionsCallbackInterfaces.Add(instance);
+            @Interact.started += instance.OnInteract;
+            @Interact.performed += instance.OnInteract;
+            @Interact.canceled += instance.OnInteract;
+            @Exit.started += instance.OnExit;
+            @Exit.performed += instance.OnExit;
+            @Exit.canceled += instance.OnExit;
+        }
+
+        private void UnregisterCallbacks(IInteractiveZoneActions instance)
+        {
+            @Interact.started -= instance.OnInteract;
+            @Interact.performed -= instance.OnInteract;
+            @Interact.canceled -= instance.OnInteract;
+            @Exit.started -= instance.OnExit;
+            @Exit.performed -= instance.OnExit;
+            @Exit.canceled -= instance.OnExit;
+        }
+
+        public void RemoveCallbacks(IInteractiveZoneActions instance)
+        {
+            if (m_Wrapper.m_InteractiveZoneActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IInteractiveZoneActions instance)
+        {
+            foreach (var item in m_Wrapper.m_InteractiveZoneActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_InteractiveZoneActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public InteractiveZoneActions @InteractiveZone => new InteractiveZoneActions(this);
     public interface IPlayerActions
     {
         void OnMovement(InputAction.CallbackContext context);
+    }
+    public interface IInteractiveZoneActions
+    {
+        void OnInteract(InputAction.CallbackContext context);
+        void OnExit(InputAction.CallbackContext context);
     }
 }
