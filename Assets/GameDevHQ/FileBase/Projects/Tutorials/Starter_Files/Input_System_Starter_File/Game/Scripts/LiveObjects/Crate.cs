@@ -18,26 +18,45 @@ namespace Game.Scripts.LiveObjects
         private void OnEnable()
         {
             InteractableZone.onZoneInteractionComplete += InteractableZone_onZoneInteractionComplete;
+            InteractableZone.onZoneInteractionFullComplete += InteractableZone_onZoneInteractionFullComplete;
+        }
+
+        private void InteractableZone_onZoneInteractionFullComplete(InteractableZone zone)
+        {
+            Debug.Log("Got InteractableZone_onZoneInteractionFullComplete");
+            DammageCreate(zone, true);
         }
 
         private void InteractableZone_onZoneInteractionComplete(InteractableZone zone)
         {
-            
-            if (_isReadyToBreak == false && _brakeOff.Count >0)
+            Debug.Log("Got InteractableZone_onZoneInteractionComplete");
+            DammageCreate(zone, false);
+        }
+
+        private void DammageCreate(InteractableZone zone, bool useFullPower)
+        {
+            if (_isReadyToBreak == false && _brakeOff.Count > 0)
             {
                 _wholeCrate.SetActive(false);
                 _brokenCrate.SetActive(true);
                 _isReadyToBreak = true;
             }
 
-            if (_isReadyToBreak && zone.GetZoneID() == 6) //Crate zone            
+            if (_isReadyToBreak && zone.GetZoneID() == 6) //Crate zone
             {
                 if (_brakeOff.Count > 0)
                 {
-                    BreakPart();
+                    if (useFullPower == true)
+                    {
+                        BreakAllPart();
+                    }
+                    else
+                    {
+                        BreakPart();
+                    }
                     StartCoroutine(PunchDelay());
                 }
-                else if(_brakeOff.Count == 0)
+                else if (_brakeOff.Count == 0)
                 {
                     _isReadyToBreak = false;
                     _crateCollider.enabled = false;
@@ -45,15 +64,15 @@ namespace Game.Scripts.LiveObjects
                     Debug.Log("Completely Busted");
                 }
             }
+
         }
+
 
         private void Start()
         {
             _brakeOff.AddRange(_pieces);
             
         }
-
-
 
         public void BreakPart()
         {
@@ -62,6 +81,17 @@ namespace Game.Scripts.LiveObjects
             _brakeOff[rng].AddForce(new Vector3(1f, 1f, 1f), ForceMode.Force);
             _brakeOff.Remove(_brakeOff[rng]);            
         }
+
+        public void BreakAllPart()
+        {
+            for (int i = 0; i < _brakeOff.Count; i++)
+            {
+                _brakeOff[i].constraints = RigidbodyConstraints.None;
+                _brakeOff[i].AddForce(new Vector3(1f, 1f, 1f), ForceMode.Force);
+                _brakeOff.Remove(_brakeOff[i]);
+            }
+        }
+
 
         IEnumerator PunchDelay()
         {

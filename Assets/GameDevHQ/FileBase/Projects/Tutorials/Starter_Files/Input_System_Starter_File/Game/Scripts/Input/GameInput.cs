@@ -123,7 +123,7 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""7e66263c-1408-44d6-b3f9-5d89fe1e4464"",
                     ""path"": ""<Keyboard>/space"",
-                    ""interactions"": """",
+                    ""interactions"": ""Hold(duration=0.5)"",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Interact"",

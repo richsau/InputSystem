@@ -48,6 +48,7 @@ namespace Game.Scripts.LiveObjects
 
         private bool _interactivePressed = false;
         private bool _interactiveReleased = false;
+        private bool _interactivePerformed = false;
         private bool _inHoldState = false;
 
         private static int _currentZoneID = 0;
@@ -66,6 +67,7 @@ namespace Game.Scripts.LiveObjects
 
 
         public static event Action<InteractableZone> onZoneInteractionComplete;
+        public static event Action<InteractableZone> onZoneInteractionFullComplete;
         public static event Action<int> onHoldStarted;
         public static event Action<int> onHoldEnded;
         public static event Action<int> onInteract;
@@ -87,13 +89,20 @@ namespace Game.Scripts.LiveObjects
             _input.InteractiveZone.Enable();
             _input.InteractiveZone.Interact.started += Interact_started;
             _input.InteractiveZone.Interact.canceled += Interact_canceled;
+            _input.InteractiveZone.Interact.performed += Interact_performed;
             _input.InteractiveZone.Exit.performed += Exit_performed;
+        }
+
+        private void Interact_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+        {
+            _interactivePerformed = true;
         }
 
         private void Interact_started(UnityEngine.InputSystem.InputAction.CallbackContext context)
         {
             _interactivePressed = true;
             _interactiveReleased = false;
+            _interactivePerformed = false;
             onInteract?.Invoke(_zoneID);
         }
 
@@ -180,6 +189,7 @@ namespace Game.Scripts.LiveObjects
                             {
                                 PerformAction();
                                 _actionPerformed = true;
+                                _interactivePerformed = false;
                                 UIManager.Instance.DisplayInteractableZoneMessage(false);
                             }
                             break;
@@ -193,6 +203,7 @@ namespace Game.Scripts.LiveObjects
                     {                      
                         case ZoneType.HoldAction:
                             PerformHoldAction();
+                            _interactivePerformed = false;
                             break;           
                     }
                 }
@@ -230,7 +241,14 @@ namespace Game.Scripts.LiveObjects
             if (_inventoryIcon != null)
                 UIManager.Instance.UpdateInventoryDisplay(_inventoryIcon);
 
-            onZoneInteractionComplete?.Invoke(this);
+            if (_interactivePerformed == true)
+            {
+                onZoneInteractionFullComplete?.Invoke(this);
+            }
+            else
+            {
+                onZoneInteractionComplete?.Invoke(this);
+            }
         }
 
         private void PerformHoldAction()
