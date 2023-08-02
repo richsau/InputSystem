@@ -49,22 +49,42 @@ namespace Game.Scripts.LiveObjects
             
         }
 
-        private void Update()
+        public void Move(Vector2 movement)
         {
             if (_inDriveMode == true)
             {
-                LiftControls();
-                CalcutateMovement();
-                if (Input.GetKeyDown(KeyCode.Escape))
-                    ExitDriveMode();
+                CalcutateMovement(movement);
             }
-
         }
 
-        private void CalcutateMovement()
+        public void Exit()
         {
-            float h = Input.GetAxisRaw("Horizontal");
-            float v = Input.GetAxisRaw("Vertical");
+            if (_inDriveMode == true)
+            {
+                ExitDriveMode();
+            }
+        }
+
+        public void LiftFork()
+        {
+            if (_inDriveMode == true)
+            {
+                LiftUpRoutine();
+            }
+        }
+
+        public void LowerFork()
+        {
+            if (_inDriveMode == true)
+            {
+                LiftDownRoutine();
+            }
+        }
+
+        private void CalcutateMovement(Vector2 movement)
+        {
+            float h = movement.x;
+            float v = movement.y;
             var direction = new Vector3(0, 0, v);
             var velocity = direction * _speed;
 
@@ -76,14 +96,6 @@ namespace Game.Scripts.LiveObjects
                 tempRot.y += h * _speed / 2;
                 transform.rotation = Quaternion.Euler(tempRot);
             }
-        }
-
-        private void LiftControls()
-        {
-            if (Input.GetKey(KeyCode.R))
-                LiftUpRoutine();
-            else if (Input.GetKey(KeyCode.T))
-                LiftDownRoutine();
         }
 
         private void LiftUpRoutine()
@@ -114,6 +126,5 @@ namespace Game.Scripts.LiveObjects
         {
             InteractableZone.onZoneInteractionComplete -= EnterDriveMode;
         }
-
     }
 }
