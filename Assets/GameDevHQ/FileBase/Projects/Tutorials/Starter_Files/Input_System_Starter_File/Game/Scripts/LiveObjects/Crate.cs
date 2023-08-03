@@ -23,13 +23,11 @@ namespace Game.Scripts.LiveObjects
 
         private void InteractableZone_onZoneInteractionFullComplete(InteractableZone zone)
         {
-            Debug.Log("Got InteractableZone_onZoneInteractionFullComplete");
             DammageCreate(zone, true);
         }
 
         private void InteractableZone_onZoneInteractionComplete(InteractableZone zone)
         {
-            Debug.Log("Got InteractableZone_onZoneInteractionComplete");
             DammageCreate(zone, false);
         }
 

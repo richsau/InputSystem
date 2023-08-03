@@ -93,7 +93,7 @@ namespace Game.Scripts.LiveObjects
             _input.InteractiveZone.Exit.performed += Exit_performed;
         }
 
-        private void Interact_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+        private void Interact_performed(UnityEngine.InputSystem.InputAction.CallbackContext context)
         {
             _interactivePerformed = true;
         }

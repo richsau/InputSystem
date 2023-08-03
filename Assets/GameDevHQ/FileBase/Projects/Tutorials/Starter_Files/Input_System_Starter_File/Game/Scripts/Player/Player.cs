@@ -79,8 +79,7 @@ namespace Game.Scripts.Player
                 velocity.y += -20f * Time.deltaTime;
             }
             
-            _controller.Move(velocity * Time.deltaTime);                      
-
+            _controller.Move(velocity * Time.deltaTime);
         }
 
         private void InteractableZone_onZoneInteractionComplete(InteractableZone zone)
