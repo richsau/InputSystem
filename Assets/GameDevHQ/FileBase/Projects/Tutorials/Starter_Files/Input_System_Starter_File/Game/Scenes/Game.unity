@@ -14149,7 +14149,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 1.02e-43, y: 0, z: 1.5924e-41, w: 4.1326e-40}
+  m_BoundingSphereOverride: {x: 1.02e-43, y: 0, z: 1.1245e-41, w: 0}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -19732,7 +19732,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 972744894}
-  m_LocalRotation: {x: 0.22150688, y: 0.04670581, z: -0.010622025, w: 0.9739818}
+  m_LocalRotation: {x: 0.22150685, y: 0.046705686, z: -0.010621995, w: 0.9739818}
   m_LocalPosition: {x: -0.48177326, y: 4.5286655, z: -4.833789}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -28309,7 +28309,7 @@ MonoBehaviour:
   _zoneType: 1
   _zoneID: 5
   _requiredID: 4
-  _displayMessage: Drive Forklift
+  _displayMessage: Drive Forklift. R to raise and F to Lower
   _zoneItems: []
   _inventoryIcon: {fileID: 21300000, guid: 88841726d7ebbfc46bf799ee1bfb7d3f, type: 3}
   _zoneKeyInput: 32
@@ -38683,7 +38683,7 @@ MonoBehaviour:
   _zoneType: 1
   _zoneID: 4
   _requiredID: 3
-  _displayMessage: Fly Drone
+  _displayMessage: Fly Drone. Space up, V down. Arrow keys rotate
   _zoneItems: []
   _inventoryIcon: {fileID: 0}
   _zoneKeyInput: 32

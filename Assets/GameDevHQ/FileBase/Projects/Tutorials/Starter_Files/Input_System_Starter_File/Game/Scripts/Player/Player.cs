@@ -62,8 +62,11 @@ namespace Game.Scripts.Player
 
             float h = movement.x;
             float v = movement.y;
-
+#if UNITY_WEBGL
+            transform.Rotate(transform.up, h*3);
+#else
             transform.Rotate(transform.up, h);
+#endif
 
             var direction = transform.forward * v;
             var velocity = direction * _speed;
